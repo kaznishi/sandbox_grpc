@@ -1,13 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"time"
 
+	"google.golang.org/grpc/codes"
+
 	pb "github.com/kaznishi/sandbox_grpc/proto/helloworld"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/status"
 )
 
 const (
@@ -42,8 +46,21 @@ func main() {
 
 	r, err = c.SayHelloHoge(ctx, &pb.HelloRequest{Name: name})
 	if err != nil {
+		printDetail(err)
 		log.Fatalf("could not greet: %v", err)
 	}
 	log.Printf("Greeting: %s", r.Message)
 
+}
+
+func printDetail(err error) {
+	s, _ := status.FromError(err)
+	if s.Code() == codes.PermissionDenied {
+		dt := s.Details()
+		pd, _ := dt[0].(*pb.PermissionDeniedDetail)
+		fmt.Println(pd.Type)
+		fmt.Println(pd.Code)
+	} else {
+		fmt.Println("fugafuga")
+	}
 }
