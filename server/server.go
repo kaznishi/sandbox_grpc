@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net"
 
@@ -8,6 +9,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"google.golang.org/grpc/status"
 )
 
 const (
@@ -23,6 +25,11 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 func (s *server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	return &pb.HelloReply{Message: "hello again " + in.Name}, nil
+}
+
+func (s *server) SayHelloHoge(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
+	err := fmt.Errorf("asdf")
+	return nil, status.Error(status.Code(err), "hogehoge")
 }
 
 func main() {
