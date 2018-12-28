@@ -1,12 +1,13 @@
 package main
 
 import (
-	pb "github.com/kaznishi/sandbox_grpc/proto/helloworld"
-	"golang.org/x/net/context"
-	"google.golang.org/grpc"
 	"log"
 	"os"
 	"time"
+
+	pb "github.com/kaznishi/sandbox_grpc/proto/helloworld"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc"
 )
 
 const (
@@ -38,4 +39,11 @@ func main() {
 		log.Fatalf("could not greet: %v", err)
 	}
 	log.Printf("Greeting: %s", r.Message)
+
+	r, err = c.SayHelloHoge(ctx, &pb.HelloRequest{Name: name})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	log.Printf("Greeting: %s", r.Message)
+
 }

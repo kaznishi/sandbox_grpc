@@ -19,3 +19,18 @@ message HelloRequest {
 message HelloReply {
     string message = 1;
 }
+
+message PermissionDeniedDetail {
+    enum PermissionDeniedType {
+        TYPE_NONE = 0;
+        TYPE_HOGE = 1;
+    }
+    enum PermissionDeniedCode {
+        CODE_NONE = 0;
+        CODE_UNKNOWN = 1;
+        CODE_FUGA = 10000;
+    }
+
+    PermissionDeniedType type = 1;
+    PermissionDeniedCode code = 2;
+}

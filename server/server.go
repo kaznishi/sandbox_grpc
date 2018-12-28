@@ -1,13 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net"
 
 	pb "github.com/kaznishi/sandbox_grpc/proto/helloworld"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/grpc/status"
 )
@@ -28,8 +28,18 @@ func (s *server) SayHelloAgain(ctx context.Context, in *pb.HelloRequest) (*pb.He
 }
 
 func (s *server) SayHelloHoge(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	err := fmt.Errorf("asdf")
-	return nil, status.Error(status.Code(err), "hogehoge")
+	st := status.New(codes.PermissionDenied, "permission denied")
+
+	details := &pb.PermissionDeniedDetail{
+		Type: pb.PermissionDeniedDetail_TYPE_HOGE,
+		Code: pb.PermissionDeniedDetail_CODE_FUGA,
+	}
+
+	if stwd, err := st.WithDetails(details); err == nil {
+		return nil, stwd.Err()
+	}
+
+	return nil, st.Err()
 }
 
 func main() {
