@@ -1,12 +1,13 @@
 package main
 
 import (
-	"golang.org/x/net/context"
-	pb "github.com/kaznishi/sandbox_grpc/proto/helloworld"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
 	"log"
 	"net"
+
+	pb "github.com/kaznishi/sandbox_grpc/proto/helloworld"
+	"golang.org/x/net/context"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 const (
